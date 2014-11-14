@@ -226,7 +226,7 @@ class Video(object):
     # pylint: disable=W0622
     def __init__(self, filename=None, name=None, short_description=None,
         id=None, reference_id=None, renditions=None, data=None,
-        _connection=None):
+        _connection=None, **keywords):
 
         self._filename = None
         self.name = None
@@ -259,6 +259,7 @@ class Video(object):
         self.cue_points = None
         self.plays_total = None
         self.plays_trailing_week = None
+        self.keywords = keywords
 
         self.image = None
         self.raw_data = None
@@ -302,10 +303,11 @@ class Video(object):
         data = None
         if self.id:
             data = self.connection.get_item(
-                'find_video_by_id', video_id=self.id)
+                'find_video_by_id', video_id=self.id, **self.keywords)
         elif self.reference_id:
             data = self.connection.get_item(
-                'find_video_by_reference_id', reference_id=self.reference_id)
+                'find_video_by_reference_id', reference_id=self.reference_id,
+                **self.keywords)
 
         if data:
             self._load(data)
@@ -436,6 +438,11 @@ class Video(object):
             self.tags.append(tag)
         self.thumbnail_url = data['thumbnailURL']
         self.video_still_url = data['videoStillURL']
+        for rend in data['renditions']:
+            self.renditions.append(Rendition(data=rend))
+        for key,val in data["customFields"].items():
+            if val is not None:
+                self.add_custom_metadata(key, val)
 
     def __setattr__(self, name, value):
         msg = None
