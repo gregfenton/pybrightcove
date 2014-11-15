@@ -333,11 +333,11 @@ class Video(object):
             'id': self.id,
             'end_date': _make_tstamp(self.end_date),
             'start_date': _make_tstamp(self.start_date)}
-        if len(self.renditions) > 0:
+        if self.renditions is not None and len(self.renditions) > 0:
             data['renditions'] = []
             for r in self.renditions:
                 data['renditions'].append(r.to_dict())
-        if len(self.metadata) > 0:
+        if self.metadata is not None and len(self.metadata) > 0:
             data['customFields'] = {}
             for meta in self.metadata:
                 data['customFields'][meta['key']] = meta['value']
@@ -555,7 +555,7 @@ class Video(object):
                 preserve_source_rendition=preserve_source_rendition,
                 encode_to=encode_to,
                 video=self._to_dict())
-        elif not self.id and len(self.renditions) > 0:
+        elif not self.id and self.renditions is not None and len(self.renditions) > 0:
             self.id = self.connection.post('create_video',
                 video=self._to_dict())
         elif self.id:
