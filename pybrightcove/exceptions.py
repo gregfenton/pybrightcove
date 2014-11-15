@@ -192,7 +192,9 @@ class IllegalValueError(BrightcoveError):
             In an update_video call, the video_id entered does not refer to a
                 valid video in the Media Library
             In a share_video call, you do not have a sharing relationship
-                established with the account whose id was entered."""
+                established with the account whose id was entered.
+            In a create_video call, a given value (e.g. reference_id) is already
+                in use."""
     code = 304
 
 
