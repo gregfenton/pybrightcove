@@ -78,7 +78,7 @@ def process_videos_list(fname):
     logger.warn("File not found! (%s)" % (fname,))
     return
 
-  logger.info("Starting (%s)" % name)
+  logger.info("Starting (%s)" % fname)
   
   csvfname = './old_new_ids-' + os.path.basename(fname) + '.csv'
   if os.path.isfile(csvfname):
