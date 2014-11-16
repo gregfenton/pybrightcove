@@ -440,9 +440,10 @@ class Video(object):
         self.video_still_url = data['videoStillURL']
         for rend in data['renditions']:
             self.renditions.append(Rendition(data=rend))
-        for key,val in data["customFields"].items():
-            if val is not None:
-                self.add_custom_metadata(key, val)
+        if 'customFields' in data and isinstance(data['customFields'], list):
+          for key,val in data["customFields"].items():
+              if val is not None:
+                  self.add_custom_metadata(key, val)
 
     def __setattr__(self, name, value):
         msg = None
