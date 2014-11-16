@@ -75,7 +75,7 @@ def process_videos_list(fname):
   if os.path.isfile(fname):
     lines = [line.strip() for line in open(fname)]
   else:
-    logger.warn("File not found! (%s)" % (name,))
+    logger.warn("File not found! (%s)" % (fname,))
     return
 
   logger.info("Starting (%s)" % name)
